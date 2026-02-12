@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <style>
+    /* Stroke color is set via inline attribute (context-stroke for TST native theming,
+       or replaced by theme-handler.js for toolbar icon). CSS must NOT set stroke
+       because CSS rules override SVG presentation attributes. */
+    .arrow {
+      fill: none;
+      stroke: #000000;
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    @media (prefers-color-scheme: dark) {
+      .arrow {
+        stroke: #ffffff;
+      }
+    }
+  </style>
+  <!-- 
+    The stroke="context-stroke" attribute is the key for Firefox/TST 
+    to natively apply theme colors to this SVG.
+  -->
+  <path class="arrow" stroke="context-stroke" d="M4 18L24 2L44 18" />
+  <path class="arrow" stroke="context-stroke" d="M4 30L24 46L44 30" />
+</svg>

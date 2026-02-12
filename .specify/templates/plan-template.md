@@ -31,7 +31,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] I. Integration-First: Does the approach respect TST's hierarchy and state?
+- [ ] II. Performance-Critical: Are sorting operations optimized for high tab volumes?
+- [ ] III. Safety & Integrity: Are high-impact operations gated by confirmation?
+- [ ] IV. Test-Driven Development: Are unit tests planned before implementation?
+- [ ] V. Synchronized Preferences: Are settings stored in sync storage?
 
 ## Project Structure
 

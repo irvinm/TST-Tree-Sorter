@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>TST Tree Sorter Settings</title>
+  <style>
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --border-color: #dddddd;
+      --note-color: #666666;
+      --group-bg: #fafafa;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #202124;
+        --text-color: #f1f1f1;
+        --border-color: #444444;
+        --note-color: #9aa0a6;
+        --group-bg: #292a2d;
+      }
+    }
+
+    body {
+      padding: 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+    }
+
+    h1 {
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .setting-group {
+      margin-bottom: 20px;
+      padding: 15px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      background-color: var(--group-bg);
+    }
+
+    .setting-group h2 {
+      margin-top: 0;
+      font-size: 16px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    input[type="number"] {
+      width: 80px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      border: 1px solid var(--border-color);
+      padding: 2px 5px;
+    }
+
+    .note {
+      font-size: 12px;
+      color: var(--note-color);
+      margin-top: 2px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>TST Tree Sorter Options</h1>
+
+  <div class="setting-group">
+    <h2>Safety &amp; Confirmation</h2>
+    <label>
+      <input type="checkbox" id="disableConfirmation"> Disable Sort Confirmation
+      <div class="note">Skip confirmation for large tree sorts (&gt;50 tabs).</div>
+    </label>
+    <label>
+      <input type="checkbox" id="disableGlobalConfirmation"> Disable Global Sort Confirmation
+      <div class="note">Skip confirmation for "Sort All" operations.</div>
+    </label>
+    <label>
+      Confirmation Threshold:
+      <input type="number" id="confirmThreshold" min="5" max="1000"> tabs
+      <div class="note">Ask for confirmation when sorting more than this many tabs.</div>
+    </label>
+  </div>
+
+  <div class="setting-group">
+    <h2>Notifications</h2>
+    <label>
+      <input type="checkbox" id="disableNotifications"> Disable Success Notifications
+    </label>
+    <label>
+      Toast Duration:
+      <input type="number" id="toastDuration" min="1000" step="500"> ms
+    </label>
+  </div>
+
+  <div class="setting-group">
+    <h2>Sorting Preferences</h2>
+    <label>
+      <input type="checkbox" id="strictDomainSort"> Strict Domain Sorting
+      <div class="note">If checked, subdomains (mail.google.com) are separate from base (google.com).</div>
+    </label>
+    <label>
+      <input type="checkbox" id="emptyDomainTop"> Place tabs without domains at the top
+      <div class="note">E.g. local files or internal browser pages.</div>
+    </label>
+  </div>
+
+  <div id="status"></div>
+
+  <script src="../lib/storage.js"></script>
+  <script src="options.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+{
+  "manifest_version": 2,
+  "name": "TST Tree Sorter",
+  "version": "0.9.0",
+  "description": "Sort Tree Style Tab trees by Title, URL, Domain, and Time.",
+  "applications": {
+    "gecko": {
+      "id": "Tree-Tab-Sorter@irvinm.addons.mozilla.org",
+      "strict_min_version": "128.0"
+    }
+  },
+  "icons": {
+    "16": "src/icons/icon.svg",
+    "32": "src/icons/icon.svg",
+    "48": "src/icons/icon.svg"
+  },
+  "permissions": [
+    "tabs",
+    "storage",
+    "menus",
+    "notifications"
+  ],
+  "background": {
+    "scripts": [
+      "src/lib/tldts.min.js",
+      "src/lib/tst-api.js",
+      "src/lib/sort-utils.js",
+      "src/lib/sort-logic.js",
+      "src/lib/storage.js",
+      "src/lib/ui-utils.js",
+      "src/background/menus.js",
+      "src/background/shortcuts.js",
+      "src/background/theme-handler.js",
+      "src/background/controller.js"
+    ]
+  },
+  "browser_action": {
+    "default_icon": "src/icons/icon.svg",
+    "default_title": "TST Tree Sorter",
+    "default_popup": "src/popup/popup.html"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "browser_style": true
+  },
+  "commands": {
+    "sort-tree-title": {
+      "suggested_key": {
+        "default": "Alt+Shift+T"
+      },
+      "description": "Sort current tree by Title"
+    },
+    "sort-tree-url": {
+      "suggested_key": {
+        "default": "Alt+Shift+U"
+      },
+      "description": "Sort current tree by URL"
+    },
+    "sort-tree-domain": {
+      "description": "Sort current tree by Domain"
+    },
+    "sort-tree-time": {
+      "description": "Sort current tree by Last Accessed"
+    }
+  }
+}
