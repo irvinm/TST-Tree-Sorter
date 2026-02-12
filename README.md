@@ -93,6 +93,9 @@ The first non-null value in Tier 1 wins. Tier 2 calculates perceived brightness 
 - **Firefox** 128+ (latest stable recommended)
 - **Tree Style Tab** extension installed and enabled
 
+> [!IMPORTANT]
+> **After installing TST Tree Sorter**, Tree Style Tab will show a permission prompt asking you to allow this addon to access your tab tree. You **must** accept this prompt for the extension to work. If you miss the prompt, you can manually enable it in TST's settings under **"Extra Features via Other Extensions"**.
+
 ### Permissions
 
 This extension requests only the minimum permissions needed:
