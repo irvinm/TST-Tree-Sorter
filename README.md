@@ -129,6 +129,9 @@ See [quickstart.md](specs/001-tree-tab-sorter/quickstart.md) for detailed setup 
 
 ## Changelog
 
+### Version 0.9.1 (Feb 12, 2026)
+- Update UUID (typo) in manifest.json
+
 ### Version 0.9.0 (Feb 11, 2026)
 - Sort Tree Style Tab trees by Title, URL, Domain, and Last Accessed.
 - Ascending and descending sort directions.
