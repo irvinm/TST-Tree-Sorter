@@ -30,4 +30,4 @@ jobs:
     - uses: actions/upload-artifact@v4
       with:
         name: TST-Tree-Sorter.xpi
-        path: TST-Tree-Sorter.xpi
+        path: tst-tree-sorter.xpi
