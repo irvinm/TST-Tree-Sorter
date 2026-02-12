@@ -5,7 +5,7 @@
   "description": "Sort Tree Style Tab trees by Title, URL, Domain, and Time.",
   "browser_specific_settings": {
     "gecko": {
-      "id": "Tree-Tab-Sorter@irvinm.addons.mozilla.org",
+      "id": "TST-Tree-Sorter@irvinm.addons.mozilla.org",
       "strict_min_version": "128.0",
       "data_collection_permissions": {
         "required": [
