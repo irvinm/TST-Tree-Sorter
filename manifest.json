@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "TST Tree Sorter",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Sort Tree Style Tab trees by Title, URL, Domain, and Time.",
   "browser_specific_settings": {
     "gecko": {
