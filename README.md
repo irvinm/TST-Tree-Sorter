@@ -21,6 +21,23 @@ A Firefox extension that integrates with [Tree Style Tab](https://addons.mozilla
 - **Theme-Responsive UI**: Extension icon and UI elements automatically adapt to your Firefox theme's colors and light/dark modes.
 - **Safety**: Confirmation dialogs for large tree sorts (>50 tabs) and global sorts.
 
+## Screenshots
+
+### Context Menu Integration
+![Menu-Options](assets/screenshots/Menu-Options.png)
+
+*Right-click on any tab in the Tree Style Tab sidebar to access sorting options for immediate children or the entire subtree.*
+
+### Toolbar Popup Settings
+![Options](assets/screenshots/Options.png)
+
+*Quickly toggle confirmations and adjust toast durations directly from the addon badge popup.*
+
+### Advanced Options Page
+![Advanced-Options](assets/screenshots/Advanced-Options.png)
+
+*Fine-tune sorting behavior, including strict domain matching and empty domain positioning.*
+
 ## Usage
 
 1. Open the Tree Style Tab sidebar.
