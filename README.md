@@ -2,9 +2,9 @@
 
 <!-- Badges will activate once published to AMO. Update the slug if needed. -->
 ![CI/CD](https://github.com/irvinm/TST-Tree-Sorter/workflows/CI/CD/badge.svg)
-![Mozilla Add-on](https://img.shields.io/amo/users/TST-Tree-Sorter.svg?style=flat-square)
-![Mozilla Add-on Rating](https://img.shields.io/amo/stars/TST-Tree-Sorter?style=flat-square)
-![](https://img.shields.io/amo/v/TST-Tree-Sorter.svg?style=flat-square)
+![Mozilla Add-on](https://img.shields.io/amo/users/TST_Tree_Sorter.svg?style=flat-square)
+![Mozilla Add-on Rating](https://img.shields.io/amo/stars/TST_Tree_Sorter?style=flat-square)
+![](https://img.shields.io/amo/v/TST_Tree_Sorter.svg?style=flat-square)
 
 A Firefox extension that integrates with [Tree Style Tab](https://addons.mozilla.org/en-US/firefox/addon/tree-style-tab/) to provide advanced sorting capabilities for your tab trees.
 
