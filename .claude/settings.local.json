@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(bash scripts/speckit.sh 2>/dev/null || echo \"Script not found\")",
+      "Bash(cd:*)"
+    ]
+  }
+}
