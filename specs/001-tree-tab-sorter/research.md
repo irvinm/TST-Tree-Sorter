@@ -1,9 +1,9 @@
 # Research: TST Tree Sorter Implementation
 
 ## Decision: Context Menu Integration
-- **Choice**: Use standard `browser.contextMenus` API with `contexts: ["tab"]`.
-- **Rationale**: Tree Style Tab (TST) automatically imports items from the native Firefox tab context menu into its sidebar menu. Hierarchical sub-menus are supported via the `parentId` property in `browser.contextMenus.create`.
-- **Alternatives Considered**: Using TST's internal `register-self` message API to add menu items. Rejected because the standard `contextMenus` API is more stable, simpler, and provides native hierarchical support that TST respects.
+- **Choice**: Use standard `browser.menus` API with `contexts: ["tab"]`.
+- **Rationale**: Tree Style Tab (TST) automatically imports items from the native Firefox tab context menu into its sidebar menu. Hierarchical sub-menus are supported via the `parentId` property in `browser.menus.create`.
+- **Alternatives Considered**: Using TST's internal `register-self` message API to add menu items. Rejected because the standard `menus` API is more stable, simpler, and provides native hierarchical support that TST respects.
 - **Clarification**: "Sort All Top-Level" must always be visible in the context menu regardless of which tab is right-clicked (Session 2026-02-10).
 
 ## Decision: Sorting Logic & Performance

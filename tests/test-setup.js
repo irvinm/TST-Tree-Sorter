@@ -21,12 +21,6 @@ global.browser = {
     },
     getURL: (path) => path
   },
-  contextMenus: {
-    create: () => { },
-    onClicked: {
-      addListener: () => { }
-    }
-  },
   menus: {
     create: () => { },
     onClicked: {

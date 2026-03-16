@@ -186,6 +186,7 @@ As a power user with many tabs across different sites, I want to sort tabs by th
 - **FR-020**: System MUST only request the minimal set of permissions necessary for core functionality: `tabs`, `storage`, `menus`, `notifications`, and integration with Tree Style Tab.
 - **FR-021**: System MUST clear all multi-selections after a sort operation and ensure the currently active tab remains the primary focus.
 - **FR-022**: System MUST dynamically adapt the extension icon using a 3-tier color preference: **(1)** If the active Firefox theme specifies an icon or text color (`icons`, `toolbar_text`, `bookmark_text`, `tab_text`, `tab_background_text`, `toolbar_field_text`), use that exact color; **(2)** If no explicit color is set, derive light/dark from toolbar background brightness; **(3)** If no theme data is available, fallback to system preference (Auto/System theme) — checks `prefers-color-scheme`. TST context menu icons MUST use SVG `context-stroke` for native theme matching. UI components (popup, options page) MUST use a standalone dark/light mode based on `prefers-color-scheme` and Firefox theme color detection.
+- **FR-023**: System SHOULD provide an option in the settings to disable success toast notifications entirely, while continuing to show error or confirmation notifications.
 
 ### Key Entities *(include if feature involves data)*
 

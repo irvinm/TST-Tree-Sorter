@@ -36,7 +36,7 @@
 - [x] T007 Implement locale-aware sorting utility using `Intl.Collator` (persistent instance) in `src/lib/sort-utils.js` — All sorts MUST be stable (FR-003)
 - [x] T008 [P] Implement UI utility for toast notifications via `browser.notifications` API in `src/lib/ui-utils.js` — Success toast: 3s (configurable), error toast: 7s (hard-coded), both manually dismissable (FR-009)
 - [x] T009 Create base settings popup UI and controller in `src/popup/popup.html` and `src/popup/popup.js` (FR-017)
-- [x] T010 [P] Setup Mocha/Chai test runner and WebExtensions API mocks (`browser.tabs`, `browser.storage`, `browser.contextMenus`, `browser.runtime`) in `tests/test-setup.js`
+- [x] T010 [P] Setup Mocha/Chai test runner and WebExtensions API mocks (`browser.tabs`, `browser.storage`, `browser.menus`, `browser.runtime`) in `tests/test-setup.js`
 - [x] T011 Implement selection clearing logic — clear all multi-selections after sort and ensure active tab remains focused (FR-021) in `src/background/controller.js`
 - [x] T012 Implement scroll-to-active logic — use TST `scroll` API primary, fallback to `browser.tabs.update({active: true})` (FR-010) in `src/background/controller.js`
 - [x] T013 Implement top-down deduplication and multi-selection targeting logic — query TST selection state, deduplicate overlapping parent/child selections (FR-002) in `src/background/controller.js`
@@ -183,6 +183,7 @@
 - [x] T045 Perform final performance profiling with 1,000 tabs to verify <1s target (SC-002) in `tests/integration/performance.test.js`
 - [x] T046 [P] Final documentation and README updates including `quickstart.md` validation
 - [ ] T047 Run full quickstart.md smoke test (15 manual verification scenarios) and confirm all pass
+  - [ ] Verify all UI text remains exclusively in English (FR-018)
 
 ---
 
@@ -250,7 +251,7 @@ graph TD
 ## Notes
 
 - All UI text is hardcoded in English (FR-018).
-- Permissions are strictly limited to necessary APIs: `tabs`, `storage`, `contextMenus` (FR-020).
+- Permissions are strictly limited to necessary APIs: `tabs`, `storage`, `menus`, `notifications` (FR-020).
 - Multi-selections are cleared after every sort (FR-021).
 - All error toasts auto-dismiss after exactly 7 seconds (hard-coded).
 - All sort operations use stable sort algorithms (FR-003).
