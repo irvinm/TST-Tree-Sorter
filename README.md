@@ -66,6 +66,9 @@ Access settings via the toolbar icon popup or **Firefox** → **Add-ons** → **
 | Toast duration | 3 seconds | How long success notifications display |
 | Strict domain sorting | Off | Sort by full sub-domain instead of base domain |
 | Empty domain position | Bottom | Where tabs without domains appear |
+| Disable confirmation dialog | Off | Skip warning for large sorts |
+| Disable global sort confirmation | Off | Skip warning when sorting all root tabs |
+| Disable success notifications | Off | Hide toasts for successful sorts |
 
 <details>
 <summary><strong>Theme Handling</strong> (click to expand)</summary>
