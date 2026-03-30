@@ -153,7 +153,7 @@ See [quickstart.md](specs/archived/001-tree-tab-sorter/quickstart.md) for detail
 ### Version History
 
 <details open>
-<summary><b>Version 0.9.2 (Mar 30, 2026)</b></summary>
+<summary><b>Version 0.9.2 (Mar 29, 2026)</b></summary>
 
 - **Improved**: **Unified Reordering Engine** — All sort types (Global, Subtree, and Multi-select) now use a robust, backward-iterating reordering strategy for maximum reliability. 
 - **Improved**: **Stability Enhancements** — Universal 100ms stabilization delay now applied between all tab moves to prevent TST API race conditions and "staircasing."
