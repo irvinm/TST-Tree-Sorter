@@ -5,6 +5,8 @@ Auto-generated from all feature plans. Last updated: Saturday, February 7, 2026
 ## Active Technologies
 - JavaScript (ES2022+) / WebExtensions API (Manifest V2) + Tree Style Tab (TST) External API, `tldts` (PSL domain extraction) (001-tree-tab-sorter)
 - `browser.storage.sync` (last-write-wins conflict resolution) (001-tree-tab-sorter)
+- [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION] (main)
+- [if applicable, e.g., PostgreSQL, CoreData, files or N/A] (main)
 
 - **Language**: JavaScript (ES2022+) / WebExtensions API
 - **Framework**: Tree Style Tab (TST) External API
@@ -38,9 +40,10 @@ tests/
 - **Documentation**: Use JSDoc for complex sorting logic and TST integration wrappers.
 
 ## Recent Changes
-- 001-tree-tab-sorter: Added JavaScript (ES2022+) / WebExtensions API (Manifest V2) + Tree Style Tab (TST) External API, `tldts` (PSL domain extraction)
+- main: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+- main: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+- main: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
 
-- **001-tree-tab-sorter**: Initial feature implementation for advanced tab sorting integrated with Tree Style Tab.
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->

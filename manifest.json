@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "TST Tree Sorter",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Sort Tree Style Tab trees by Title, URL, Domain, and Time.",
   "browser_specific_settings": {
     "gecko": {
@@ -51,20 +51,26 @@
   "commands": {
     "sort-tree-title": {
       "suggested_key": {
-        "default": "Alt+Shift+T"
+        "default": "Ctrl+Alt+T"
       },
       "description": "Sort current tree by Title"
     },
     "sort-tree-url": {
       "suggested_key": {
-        "default": "Alt+Shift+U"
+        "default": "Ctrl+Alt+U"
       },
       "description": "Sort current tree by URL"
     },
     "sort-tree-domain": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+D"
+      },
       "description": "Sort current tree by Domain"
     },
     "sort-tree-time": {
+      "suggested_key": {
+        "default": "Ctrl+Alt+A"
+      },
       "description": "Sort current tree by Last Accessed"
     }
   }

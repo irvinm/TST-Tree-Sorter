@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   els.strictDomainSort.checked = settings.strictDomainSort;
   els.emptyDomainTop.checked = settings.emptyDomainTop;
 
+  // Disable toast duration when notifications are disabled (FR-023, Session 2026-03-29)
+  els.toastDuration.disabled = settings.disableNotifications;
+
   // Save logic
   const save = async () => {
     await StorageService.updateSettings({
@@ -32,6 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       strictDomainSort: els.strictDomainSort.checked,
       emptyDomainTop: els.emptyDomainTop.checked
     });
+
+    // Toggle toast duration field (FR-023, Session 2026-03-29)
+    els.toastDuration.disabled = els.disableNotifications.checked;
 
     els.status.textContent = 'Saved!';
     setTimeout(() => els.status.textContent = '', 1500);

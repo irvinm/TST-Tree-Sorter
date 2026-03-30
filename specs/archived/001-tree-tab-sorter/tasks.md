@@ -2,7 +2,7 @@
 
 **Input**: Design documents from `/specs/001-tree-tab-sorter/`  
 **Prerequisites**: plan.md, spec.md, research.md, data-model.md, contracts/messages.md  
-**Last Updated**: Monday, February 10, 2026 (post-clarification Round 2)
+**Last Updated**: Saturday, March 29, 2026 (Session 2026-03-29 clarification updates)
 
 **Tests**: Tests are MANDATORY per the project constitution. Every user story MUST include unit tests that fail before implementation.
 
@@ -21,7 +21,7 @@
 - [x] T001 Create project structure per implementation plan: `src/background/`, `src/popup/`, `src/options/`, `src/lib/`, `src/icons/`, `tests/unit/`, `tests/integration/`
 - [x] T002 Initialize npm project and install dependencies (`web-ext`, `mocha`, `chai`, `tldts`) in `package.json`
 - [x] T003 [P] Configure ESLint and Prettier for ES2022 standards in `.eslintrc.json` and `.prettierrc`
-- [x] T004 Create extension manifest with minimal permissions (`tabs`, `storage`, `menus`, `notifications`) and 4 keyboard shortcut commands (`sort-tree-title`, `sort-tree-url`, `sort-tree-domain`, `sort-tree-time`) in `manifest.json` (FR-019, FR-020)
+- [x] T004 Create extension manifest with minimal permissions (`tabs`, `storage`, `menus`, `notifications`) and 4 keyboard shortcut commands (`sort-tree-title`, `sort-tree-url`, `sort-tree-domain`, `sort-tree-time`) in `manifest.json` (FR-019, FR-020) — use suggested keys `Ctrl+Alt+T/U/D/A`
 
 ---
 
@@ -168,7 +168,7 @@
 
 **Purpose**: Confirmation dialogs, keyboard shortcuts, state preservation, theming, settings UI
 
-- [x] T040 Implement confirmation dialog via custom popup window (`src/background/confirm.html`, `src/background/confirm.js`) with themed dark/light styling and "Don't show again" checkbox, for >50 immediate children or Global Sort, checking storage for suppression preferences (`disableConfirmation`, `disableGlobalConfirmation`) (FR-011, FR-012) in `src/background/controller.js`
+- [x] T040 Implement confirmation dialog via custom popup window (`src/confirm/confirm.html`, `src/confirm/confirm.js`) with themed dark/light styling and "Don't show again" checkbox, for >50 immediate children or Global Sort, checking storage for suppression preferences (`disableConfirmation`, `disableGlobalConfirmation`) (FR-011, FR-012) in `src/background/controller.js`
 - [x] T041 [P] Implement full settings UI — confirmation thresholds, toast duration, empty domain position, strict domain sort toggle, `disableGlobalConfirmation` toggle — in `src/options/options.html` and `src/options/options.js` (FR-017)
 - [x] T042 [P] Implement WebExtension command handlers for 4 keyboard shortcuts (`sort-tree-title`, `sort-tree-url`, `sort-tree-domain`, `sort-tree-time`) — ascending-only, immediate-children-only, "No children to sort" toast for leaf tabs (FR-019) in `src/background/shortcuts.js`
 - [x] T043 Ensure tab audio/mute states (`audible`, `mutedInfo`) and collapsed/expanded states are preserved during reordering (FR-015, FR-016) in `src/background/controller.js`
@@ -182,8 +182,35 @@
 
 - [x] T045 Perform final performance profiling with 1,000 tabs to verify <1s target (SC-002) in `tests/integration/performance.test.js`
 - [x] T046 [P] Final documentation and README updates including `quickstart.md` validation
-- [ ] T047 Run full quickstart.md smoke test (15 manual verification scenarios) and confirm all pass
-  - [ ] Verify all UI text remains exclusively in English (FR-018)
+- [x] T047 Run full quickstart.md smoke test (15 manual verification scenarios) and confirm all pass
+  - [x] Verify all UI text remains exclusively in English (FR-018)
+
+---
+
+## Phase 9: Session 2026-03-29 Clarification Updates
+
+**Purpose**: Code and documentation changes required by the Session 2026-03-29 spec clarification round
+
+### Tests
+
+- [x] T048 [P] Add unit tests for recursive sort descendant counting and Global Sort threshold logic in `tests/unit/sort-root.test.js` — Test cases:
+  - Recursive sort with 10 immediate children but 500+ total descendants triggers confirmation when descendants > `confirmThreshold`
+  - Non-recursive sort still counts immediate children only
+  - Global Sort with 3 root tabs and `confirmThreshold` = 50 does NOT trigger confirmation
+  - Global Sort with 60 root tabs and `confirmThreshold` = 50 triggers confirmation
+  - Single root tab Global Sort shows "Nothing to sort" toast
+
+### Implementation
+
+- [x] T049 Update confirmation logic in `src/background/controller.js` — For recursive sorts, count total descendants (not immediate children) when checking against `confirmThreshold`. Add helper method `countDescendants(nodes)` to recursively count all tabs in subtree (FR-011, Session 2026-03-29)
+- [x] T050 Update confirmation logic in `src/background/controller.js` — Global Sort MUST use `confirmThreshold` setting instead of always confirming. Change `shouldConfirm` for Global Sort from `!settings.disableGlobalConfirmation` to `!settings.disableGlobalConfirmation && count > settings.confirmThreshold` (FR-011, Session 2026-03-29)
+- [x] T051 Add single-root-tab guard in `src/background/controller.js` — When Global Sort has ≤1 sortable root tab after pinned filtering, show "Nothing to sort" toast and return early (Edge Case: Single Root Tab)
+- [x] T052 [P] Add toast duration field disable/enable toggle in `src/popup/popup.js` — When `disableNotifications` checkbox changes, set `durationInput.disabled` to match. Also set initial disabled state on page load (FR-023, Session 2026-03-29)
+- [x] T053 [P] Add toast duration field disable/enable toggle in `src/options/options.js` — When `disableNotifications` checkbox changes, set `toastDuration` input disabled state. Also set initial disabled state on page load (FR-023, Session 2026-03-29)
+- [x] T054 [P] Add suggested keyboard shortcuts for Domain and Time in `manifest.json` — Add `"suggested_key": { "default": "Ctrl+Alt+D" }` to `sort-tree-domain` and `"suggested_key": { "default": "Ctrl+Alt+A" }` to `sort-tree-time` (FR-019, Session 2026-03-29)
+- [x] T055 Update `specs/001-tree-tab-sorter/quickstart.md` manual verification table — Add scenarios for: recursive sort confirmation with total descendants, Global Sort threshold behavior, single-root-tab toast, toast duration field disabled state, Domain/Time keyboard shortcuts
+
+**Checkpoint**: All Session 2026-03-29 clarification changes verified. Confirmation logic updated, UI toggles working, manifest updated.
 
 ---
 
@@ -203,13 +230,16 @@ graph TD
     P5 --> P7
     P6 --> P7
     P7 --> P8[Phase 8: Verification]
+    P7 --> P9[Phase 9: Clarification Updates]
+    P9 --> P8
 ```
 
 - **Setup (Phase 1)**: No dependencies — start immediately.
 - **Foundational (Phase 2)**: Depends on Phase 1. **BLOCKS all user stories.**
 - **User Stories (Phase 3–6)**: Depend on Phase 2. Can run in parallel or sequentially by priority (P1 → P2).
 - **Polish (Phase 7)**: Depends on all user story phases (3–6).
-- **Verification (Phase 8)**: Depends on Phase 7.
+- **Clarification Updates (Phase 9)**: Depends on Phase 7 (modifies controller.js, popup.js, options.js, manifest.json).
+- **Verification (Phase 8)**: Depends on Phase 7 and Phase 9.
 
 ### Parallel Opportunities
 
@@ -218,6 +248,7 @@ graph TD
 - T021, T022, T026, T027 (Tests and menu registrations — independent files)
 - T034, T035 (US4 tests and menu — independent files)
 - T041, T042, T044, T046 (Polish — independent files)
+- T052, T053, T054 (Clarification Updates — independent files)
 
 ### Within Each User Story
 
@@ -240,7 +271,7 @@ graph TD
 
 ### Incremental Delivery
 
-1. Foundation → MVP (US1: Title Sort) → URL Sort (US2) → Global Sort (US3) → Domain & Time (US4) → Polish → Verification.
+1. Foundation → MVP (US1: Title Sort) → URL Sort (US2) → Global Sort (US3) → Domain & Time (US4) → Polish → Clarification Updates → Verification.
 
 ### Critical Path
 
@@ -258,3 +289,4 @@ graph TD
 - Confirmation uses a custom popup window (`confirm.html`) with themed styling and "Don't show again" checkbox (FR-011).
 - `browser.storage.sync` uses last-write-wins conflict resolution (FR-012).
 - **CRITICAL**: Unit tests MUST be written before implementation logic for each story (Constitution Principle IV: TDD).
+- **Session 2026-03-29 changes**: Recursive sorts count total descendants for confirmation; Global Sort uses `confirmThreshold`; single-root-tab guard added; toast duration field disabled when notifications off; all 4 keyboard shortcuts have suggested keys.

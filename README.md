@@ -18,7 +18,7 @@ A Firefox extension that integrates with [Tree Style Tab](https://addons.mozilla
 - **Root Level Sort**: Organize your entire sidebar (top-level tabs only).
 - **Multi-Selection**: Sort multiple selected branches at once.
 - **Keyboard Shortcuts**: 4 configurable commands for quick sorts (Title, URL, Domain, Time).
-- **Theme-Responsive UI**: Extension icon and UI elements automatically adapt to your Firefox theme's colors and light/dark modes.
+- **Theme-Responsive UI**: Extension icon and UI elements automatically adapt to your Firefox theme's colors and light/dark modes. (Will be improved in the near future)
 - **Safety**: Confirmation dialogs for large tree sorts (>50 tabs) and global sorts.
 
 ## Screenshots
@@ -49,12 +49,12 @@ A Firefox extension that integrates with [Tree Style Tab](https://addons.mozilla
 
 Configure via **Firefox** → **Add-ons** → **Manage Extension Shortcuts**:
 
-| Command | Action |
-|---------|--------|
-| `sort-tree-title` | Sort active tab's children by Title (ascending) |
-| `sort-tree-url` | Sort active tab's children by URL (ascending) |
-| `sort-tree-domain` | Sort active tab's children by Domain (ascending) |
-| `sort-tree-time` | Sort active tab's children by Last Accessed (newest first) |
+| Command | Default Shortcut | Action |
+|---------|-----------------|--------|
+| `sort-tree-title` | `Ctrl+Alt+T` | Sort active tab's children by Title (ascending) |
+| `sort-tree-url` | `Ctrl+Alt+U` | Sort active tab's children by URL (ascending) |
+| `sort-tree-domain` | `Ctrl+Alt+D` | Sort active tab's children by Domain (ascending) |
+| `sort-tree-time` | `Ctrl+Alt+A` | Sort active tab's children by Last Accessed (newest first) |
 
 ### Settings
 
@@ -145,12 +145,32 @@ npx web-ext run
 npm test          # Run all unit + integration tests
 ```
 
-See [quickstart.md](specs/001-tree-tab-sorter/quickstart.md) for detailed setup and manual verification scenarios.
+See [quickstart.md](specs/archived/001-tree-tab-sorter/quickstart.md) for detailed setup and manual verification scenarios.
 
 ## Changelog
 
 
-### Version 0.9.1 (Feb 12, 2026)
+### Version History
+
+<details open>
+<summary><b>Version 0.9.2 (Mar 30, 2026)</b></summary>
+
+- **Improved**: **Unified Reordering Engine** — All sort types (Global, Subtree, and Multi-select) now use a robust, backward-iterating reordering strategy for maximum reliability. 
+- **Improved**: **Stability Enhancements** — Universal 100ms stabilization delay now applied between all tab moves to prevent TST API race conditions and "staircasing."
+- **Fixed**: **Multi-select Anchoring** — Explicitly anchors the last tab of every level to ensure correct parentage for multi-tab selections across different tree branches.
+- **Fixed**: **Subtree Sort Order** — Children now correctly follow the A→Z sort sequence even in TST versions that default to prepending children.
+- **Fixed**: **Keyboard Shortcuts** — Changed from `Alt+Shift+` to `Ctrl+Alt+` to avoid conflict with Firefox menu bar accelerators.
+- **Improved**: **Global Sort Progress** — Confirmation dialog now displays the accurate number of tabs to be sorted.
+- **Improved**: **Confirmation Consistency** — Threshold now applies uniformly: non-recursive counts immediate children, recursive counts descendants, Global Sort counts top-level tabs.
+- **Improved**: **Visual polish** — Single root tab sorts now show "Nothing to sort" toast instead of silent failure.
+- **Improved**: **UI feedback** — Toast duration field is now correctly disabled when notifications are off.
+- **Improved**: **Shortcut Defaults** — Suggested default bindings now included in `manifest.json`.
+
+</details>
+
+<details>
+<summary><b>Version 0.9.1 (Feb 12, 2026)</b></summary>
+
 - Sort Tree Style Tab trees by Title, URL, Domain, and Last Accessed.
 - Ascending and descending sort directions.
 - Recursive (entire subtree) and immediate-children-only sorting.
@@ -165,6 +185,8 @@ See [quickstart.md](specs/001-tree-tab-sorter/quickstart.md) for detailed setup 
 - Snapshot-based sorting for safety during concurrent tab operations.
 - Sort mutex to prevent re-entrant sort calls.
 - Preserves collapsed/expanded state, audio/mute state, and tab hierarchy.
+
+</details>
 
 ## License
 

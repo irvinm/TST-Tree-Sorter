@@ -47,6 +47,12 @@ npm test
 | Concurrent sort | Trigger sort while one is running | Second sort blocked until first completes |
 | Error toast | Disable TST → Trigger sort | Error toast, auto-dismiss after 7s |
 | Theme adaptation | Switch Firefox theme (dark ↔ light) | Icon and UI adapt automatically |
+| Recursive confirmation | Create deeply nested tree with 500+ total descendants → Recursive sort | Confirmation dialog shows total descendant count |
+| Global Sort threshold | Create window with 3 root tabs → Sort All Top-Level | No confirmation dialog (below threshold) |
+| Single root tab | Create window with 1 root tab → Sort All Top-Level | Toast: "Nothing to sort" |
+| Duration field disabled | Check "Disable Notifications" in popup/options | Toast duration field greys out and becomes non-editable |
+| Domain shortcut | Press Ctrl+Alt+D | Active tab's children sorted by Domain ascending |
+| Time shortcut | Press Ctrl+Alt+A | Active tab's children sorted by Last Accessed ascending |
 
 ### Smoke Test (Happy Path)
 1. Open Firefox with TST sidebar visible

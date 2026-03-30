@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   notifyCheck.checked = settings.disableNotifications;
   durationInput.value = settings.toastDuration;
 
+  // Disable toast duration when notifications are disabled (FR-023, Session 2026-03-29)
+  durationInput.disabled = settings.disableNotifications;
+
   // Save on change
   disableConfirmCheck.addEventListener('change', async () => {
     await StorageService.updateSettings({ disableConfirmation: disableConfirmCheck.checked });
@@ -24,6 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   notifyCheck.addEventListener('change', async () => {
     await StorageService.updateSettings({ disableNotifications: notifyCheck.checked });
+    // Toggle toast duration field (FR-023, Session 2026-03-29)
+    durationInput.disabled = notifyCheck.checked;
   });
 
   durationInput.addEventListener('change', async () => {

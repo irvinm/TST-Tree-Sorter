@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageEl = document.getElementById('message');
   messageEl.style.whiteSpace = 'pre-wrap';
   if (isGlobal) {
-    messageEl.textContent = `TST Tree Sorter: Are you sure you want to sort ALL top-level tabs? This will significantly rearrange your sidebar.`;
+    messageEl.textContent = `TST Tree Sorter: Are you sure you want to sort all ${count} top-level tabs?\nThis will significantly rearrange your sidebar and can not be undone.`;
   } else {
     messageEl.textContent = `TST Tree Sorter: Are you sure you want to sort ${count} tabs?\nThis cannot be undone.`;
   }

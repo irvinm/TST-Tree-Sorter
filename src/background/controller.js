@@ -128,6 +128,23 @@ const Controller = {
   },
 
   /**
+   * Counts total descendants recursively in a tab tree (Session 2026-03-29).
+   * Used for recursive sort confirmation threshold.
+   * @param {Array} nodes - Array of tab tree nodes.
+   * @returns {number} Total count of all nodes including nested children.
+   */
+  countDescendants(nodes) {
+    let count = 0;
+    for (const node of nodes) {
+      count++;
+      if (node.children && node.children.length > 0) {
+        count += this.countDescendants(node.children);
+      }
+    }
+    return count;
+  },
+
+  /**
    * Orchestrates the sorting of a tree.
    * @param {number|null} rootTabId - The root tab ID, or null for Global Sort.
    * @param {number} windowId - The window ID.
@@ -198,12 +215,28 @@ const Controller = {
       return;
     }
 
-    const count = sortableTabs.length;
+    // Single root tab guard — Global Sort with ≤1 sortable tab (Edge Case: Single Root Tab)
     const isGlobal = rootTabId === null;
+    if (isGlobal && sortableTabs.length <= 1) {
+      UIUtils.showToast('Nothing to sort.', settings.toastDuration, false, true);
+      return;
+    }
 
-    // Confirmation logic (FR-011, FR-012)
+    // Determine confirmation count:
+    // - Non-recursive: count immediate children (sortableTabs.length)
+    // - Recursive: count total descendants
+    // - Global Sort: count root-level tabs (sortableTabs.length)
+    let count;
+    if (recursive) {
+      count = this.countDescendants(sortableTabs);
+    } else {
+      count = sortableTabs.length;
+    }
+
+    // Confirmation logic (FR-011, FR-012, Session 2026-03-29)
+    // All sort types (subtree, recursive, Global) use confirmThreshold uniformly
     const shouldConfirm = isGlobal
-      ? !settings.disableGlobalConfirmation
+      ? !settings.disableGlobalConfirmation && count > settings.confirmThreshold
       : !settings.disableConfirmation && count > settings.confirmThreshold;
 
     if (shouldConfirm) {
@@ -269,7 +302,8 @@ const Controller = {
   async applyOrderToTST(sortedNodes, parentId, windowId, recursive) {
     let succeeded = 0;
     let failed = 0;
-    const total = sortedNodes.length;
+    // Total count for progress reporting (descendants for subtrees/recursive, root count for global)
+    const total = (parentId === null && !recursive) ? sortedNodes.length : this.countDescendants(sortedNodes);
 
     // Collect expanded tabs to collapse/restore for visual stability
     const expandedTabIds = [];
@@ -290,24 +324,63 @@ const Controller = {
     if (expandedTabIds.length > 0) await new Promise(r => setTimeout(r, 100));
 
     // Move nodes
-    const moveNodes = async (nodes, pId) => {
-      // Reverse loop: TST attach prepends, so reversing produces correct order
-      for (let i = nodes.length - 1; i >= 0; i--) {
-        const node = nodes[i];
+    if (parentId === null) {
+      // Global Sort: Build backwards relative to the last tab.
+      // We move item i before item i+1, from N-2 down to 0.
+      for (let i = sortedNodes.length - 2; i >= 0; i--) {
+        const node = sortedNodes[i];
+        const nextNode = sortedNodes[i + 1];
         try {
-          await TSTApi.attach(node.id, pId, windowId);
-          succeeded++;
-          if (recursive && node.children && node.children.length > 0) {
-            await moveNodes(node.children, node.id);
-          }
+          console.log(`Global Sort: moving "${node.title}" before "${nextNode.title}"`);
+          await TSTApi.moveBefore(node.id, nextNode.id, true);
+          await new Promise(r => setTimeout(r, 100));
         } catch (e) {
-          // Partial failure: continue with remaining tabs
-          console.warn(`Failed to move tab ${node.id}:`, e);
+          console.warn(`Failed to reorder root tab ${node.id}:`, e);
           failed++;
         }
       }
-    };
-    await moveNodes(sortedNodes, parentId);
+    } else {
+      // Subtree Sort: Explicitly anchor the last tab, then build backwards.
+      const moveNodes = async (nodes, pId) => {
+        if (nodes.length === 0) return;
+
+        // 1. Anchor the last node to the correct parent (moves the block if parent changed)
+        const lastNode = nodes[nodes.length - 1];
+        try {
+          console.log(`Subtree Sort: anchoring "${lastNode.title}" to parent ${pId}`);
+          await TSTApi.attach(lastNode.id, pId, windowId);
+          await new Promise(r => setTimeout(r, 100));
+        } catch (e) {
+          console.warn(`Failed to anchor tab ${lastNode.id}:`, e);
+          failed++;
+        }
+
+        // 2. Build backwards relative to successors
+        for (let i = nodes.length - 2; i >= 0; i--) {
+          const node = nodes[i];
+          const nextNode = nodes[i + 1];
+          try {
+            console.log(`Subtree Sort: moving "${node.title}" before "${nextNode.title}"`);
+            await TSTApi.moveBefore(node.id, nextNode.id, true);
+            await new Promise(r => setTimeout(r, 100));
+          } catch (e) {
+            console.warn(`Failed to move tab ${node.id}:`, e);
+            failed++;
+          }
+        }
+
+        // 3. Recurse into children after the parent level is stable
+        if (recursive) {
+          for (const node of nodes) {
+            if (node.children && node.children.length > 0) {
+              await moveNodes(node.children, node.id);
+            }
+          }
+        }
+      };
+      await moveNodes(sortedNodes, parentId);
+    }
+    succeeded = total - failed;
 
     // Restore expanded state (FR-015)
     for (const id of expandedTabIds) {
@@ -342,7 +415,7 @@ const Controller = {
    */
   async requestConfirmation(count, isGlobal, windowId) {
     return new Promise(async (resolve) => {
-      const width = 450;
+      const width = 495;
       const height = 210;
 
       try {
