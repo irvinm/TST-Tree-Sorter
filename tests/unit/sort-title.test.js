@@ -125,6 +125,23 @@ describe('Sort by Title', () => {
     expect(sorted[2].title).to.equal('Tab 10');
   });
 
+  it('should default to natural numeric sorting when natural parameter is omitted', () => {
+    const numericTabs = [
+      { title: 'Tab 10', id: 1 },
+      { title: 'Tab 2', id: 2 },
+      { title: 'Tab 1', id: 3 }
+    ];
+    const sorted = SortLogic.sortTabsByTitle(numericTabs, true);
+    expect(sorted[0].title).to.equal('Tab 1');
+    expect(sorted[1].title).to.equal('Tab 2');
+    expect(sorted[2].title).to.equal('Tab 10');
+  });
+
+  it('should preserve numeric collation behavior in standardCollator compatibility getter', () => {
+    expect(SortUtils.standardCollator).to.equal(SortUtils.naturalCollator);
+    expect(SortUtils.standardCollator.compare('Tab 2', 'Tab 10')).to.be.lessThan(0);
+  });
+
   it('should handle multi-digit numbers across orders of magnitude naturally', () => {
     const multiDigit = [
       { title: 'Item 100', id: 1 },

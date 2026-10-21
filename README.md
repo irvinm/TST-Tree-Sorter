@@ -97,7 +97,7 @@ The first non-null value in Tier 1 wins. Tier 2 calculates perceived brightness 
 - **Pinned tabs excluded** — Pinned tabs are excluded from all sort operations to prevent accidental disruption.
 - **No cross-window sorting** — Sorting is scoped to the current window only; tabs cannot be moved between windows.
 - **Built-in pages** — Browser internal pages (`about:`, `moz-extension://`) have no domain and are grouped separately during domain sorts.
-- **Natural numeric sorting edge cases** — When natural numeric sorting is enabled, strings containing numbers (such as hexadecimal commit hashes or asset URLs) evaluate digit sequences by numeric magnitude rather than character codes. (See [Natural sort order on Wikipedia](https://en.wikipedia.org/wiki/Natural_sort_order)). Switch to Alphabetic mode for strict character-by-character ordering.
+- **Natural numeric sorting edge cases** — When natural numeric sorting is enabled, strings containing numbers (such as hexadecimal commit hashes or asset URLs) evaluate digit sequences by numeric magnitude rather than as text. (See [Natural sort order on Wikipedia](https://en.wikipedia.org/wiki/Natural_sort_order)). Switch to Alphabetic mode for locale-aware, case-insensitive sorting that treats numbers as text.
 
 ## Roadmap
 

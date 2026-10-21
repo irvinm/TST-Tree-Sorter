@@ -9,7 +9,7 @@ const SortUtils = {
   }),
 
   get standardCollator() {
-    return this.alphabeticCollator;
+    return this.naturalCollator;
   },
 
   naturalCollator: new Intl.Collator(undefined, {
@@ -22,10 +22,10 @@ const SortUtils = {
    * Compares two strings using the browser's locale.
    * @param {string} a - First string.
    * @param {string} b - Second string.
-   * @param {boolean} [natural=false] - Whether to use natural numeric sorting (otherwise alphabetic).
+   * @param {boolean} [natural=true] - Whether to use natural numeric sorting (otherwise alphabetic).
    * @returns {number} -1, 0, or 1.
    */
-  compare(a, b, natural = false) {
+  compare(a, b, natural = true) {
     const collator = natural ? this.naturalCollator : this.alphabeticCollator;
     return collator.compare(a || '', b || '');
   },
@@ -34,10 +34,10 @@ const SortUtils = {
    * Compares two URLs by Hostname > Path > Fragment.
    * @param {string} urlA
    * @param {string} urlB
-   * @param {boolean} [natural=false] - Whether to use natural numeric sorting.
+   * @param {boolean} [natural=true] - Whether to use natural numeric sorting.
    * @returns {number}
    */
-  compareURLs(urlA, urlB, natural = false) {
+  compareURLs(urlA, urlB, natural = true) {
     let u1, u2;
     try {
       u1 = new URL(urlA);

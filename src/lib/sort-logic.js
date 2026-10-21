@@ -7,10 +7,10 @@ const SortLogic = {
    * @param {Array} tabs - Array of tab objects.
    * @param {boolean} [ascending=true] - Sort direction.
    * @param {boolean} [recursive=false] - Whether to sort recursively.
-   * @param {boolean} [natural=false] - Whether to use natural numeric sorting.
+   * @param {boolean} [natural=true] - Whether to use natural numeric sorting.
    * @returns {Array} Sorted array of tabs.
    */
-  sortTabsByTitle(tabs, ascending = true, recursive = false, natural = false) {
+  sortTabsByTitle(tabs, ascending = true, recursive = false, natural = true) {
     console.log('SortLogic: Sorting by Title', { count: tabs.length, ascending, recursive, natural });
     const sorted = [...tabs].sort((a, b) => {
       const result = SortUtils.compare(a.title, b.title, natural);
@@ -32,10 +32,10 @@ const SortLogic = {
    * @param {Array} tabs - Array of tab objects.
    * @param {boolean} [ascending=true] - Sort direction.
    * @param {boolean} [recursive=false] - Whether to sort recursively.
-   * @param {boolean} [natural=false] - Whether to use natural numeric sorting.
+   * @param {boolean} [natural=true] - Whether to use natural numeric sorting.
    * @returns {Array} Sorted array of tabs.
    */
-  sortTabsByURL(tabs, ascending = true, recursive = false, natural = false) {
+  sortTabsByURL(tabs, ascending = true, recursive = false, natural = true) {
     console.log('SortLogic: Sorting by URL', { count: tabs.length, ascending, recursive, natural });
     const sorted = [...tabs].sort((a, b) => {
       let result = SortUtils.compareURLs(a.url, b.url, natural);
@@ -58,7 +58,7 @@ const SortLogic = {
     return sorted;
   },
 
-  sortTabsByDomain(tabs, ascending = true, strict = false, recursive = false, emptyDomainTop = false, natural = false) {
+  sortTabsByDomain(tabs, ascending = true, strict = false, recursive = false, emptyDomainTop = false, natural = true) {
     console.log('SortLogic: Sorting by Domain', { count: tabs.length, ascending, recursive, emptyDomainTop, natural });
     const sorted = [...tabs].sort((a, b) => {
       let d1, d2;
@@ -96,7 +96,7 @@ const SortLogic = {
     return sorted;
   },
 
-  sortTabsByTime(tabs, ascending = true, recursive = false, natural = false) {
+  sortTabsByTime(tabs, ascending = true, recursive = false, natural = true) {
     console.log('SortLogic: Sorting by Time', { count: tabs.length, ascending, recursive, natural });
     // "Ascending" here means "Newest First" per specs/menus?
     // Spec says: "The default 'Ascending' sort MUST place the most recently accessed tabs at the top."

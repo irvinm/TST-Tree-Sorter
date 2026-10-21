@@ -234,7 +234,7 @@
           <input type="radio" name="sortMode" id="sortModeAlphabetic" value="alphabetic">
           <span><strong>Alphabetic Sorting</strong></span>
         </label>
-        <div class="note">Evaluates character-by-character (e.g., <code>Tab 1, Tab 10, Tab 2</code>). Strict ASCII / dictionary order for hash keys, commit SHAs, or raw codes.</div>
+        <div class="note">Locale-aware sorting (case-insensitive, punctuation-ignoring) without numeric evaluation (e.g., <code>Tab 1, Tab 10, Tab 2</code>).</div>
       </div>
     </div>
     <details class="help-details" style="margin-left: 0;">
@@ -278,7 +278,7 @@
           <li><strong>Technical URLs &amp; Query strings:</strong> URL sorting also respects this setting. Cache-busting timestamps (<code>?v=171000...</code>), port numbers, or asset IDs in paths are compared numerically.</li>
         </ul>
 
-        <p><em><strong>Recommendation:</strong> Enable for general browsing, tutorials, tickets, and reading lists. Keep disabled for developer workspaces with git commit hashes, raw hex files, or where strict character-by-character dictionary sorting is required.</em></p>
+        <p><em><strong>Recommendation:</strong> Use Natural sorting for general browsing, tutorials, tickets, and reading lists. Use Alphabetic sorting for developer workspaces with git commit hashes, raw hex files, or where numbers should be treated as text.</em></p>
       </div>
     </details>
     <label>
