@@ -46,5 +46,6 @@ tests/
 
 
 <!-- MANUAL ADDITIONS START -->
+- **AMO Listing Formatting**: When updating `AMO_DESCRIPTION.md`, adhere strictly to [Extension Workshop: Make use of Markdown](https://extensionworkshop.com/documentation/develop/create-an-appealing-listing/#make-use-of-markdown). AMO does not support `#` headers, images, or raw HTML in the description. Use bold text for headers and maintain the plain-text summary under 250 characters.
 <!-- MANUAL ADDITIONS END -->
 /spe
