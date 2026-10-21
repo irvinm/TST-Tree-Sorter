@@ -125,6 +125,48 @@ describe('Sort by Title', () => {
     expect(sorted[2].title).to.equal('Tab 10');
   });
 
+  it('should handle multi-digit numbers across orders of magnitude naturally', () => {
+    const multiDigit = [
+      { title: 'Item 100', id: 1 },
+      { title: 'Item 2', id: 2 },
+      { title: 'Item 20', id: 3 },
+      { title: 'Item 1', id: 4 },
+      { title: 'Item 9', id: 5 }
+    ];
+    const sorted = SortLogic.sortTabsByTitle(multiDigit, true, false, true);
+    expect(sorted.map(t => t.title)).to.deep.equal([
+      'Item 1',
+      'Item 2',
+      'Item 9',
+      'Item 20',
+      'Item 100'
+    ]);
+  });
+
+  it('should sort numbered section prefixes naturally', () => {
+    const sections = [
+      { title: '10. Advanced Concepts', id: 1 },
+      { title: '1. Introduction', id: 2 },
+      { title: '2. Getting Started', id: 3 }
+    ];
+    const sorted = SortLogic.sortTabsByTitle(sections, true, false, true);
+    expect(sorted[0].title).to.equal('1. Introduction');
+    expect(sorted[1].title).to.equal('2. Getting Started');
+    expect(sorted[2].title).to.equal('10. Advanced Concepts');
+  });
+
+  it('should treat diacritics / accents base-insensitively', () => {
+    const accented = [
+      { title: 'Zebra', id: 1 },
+      { title: 'résumé', id: 2 },
+      { title: 'Apple', id: 3 }
+    ];
+    const sorted = SortLogic.sortTabsByTitle(accented, true);
+    expect(sorted[0].title).to.equal('Apple');
+    expect(sorted[1].title).to.equal('résumé');
+    expect(sorted[2].title).to.equal('Zebra');
+  });
+
   it('should handle empty or null titles', () => {
     const withEmpty = [
       { title: 'Beta', id: 1 },

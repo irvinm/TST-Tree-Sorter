@@ -319,3 +319,9 @@ if (typeof browser !== 'undefined' && browser.storage && browser.storage.onChang
 
 // Initialize
 Menus.create();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = Menus;
+} else {
+  window.Menus = Menus;
+}

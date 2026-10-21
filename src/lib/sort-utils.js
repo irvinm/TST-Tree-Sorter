@@ -51,6 +51,10 @@ const SortUtils = {
     const hostResult = this.compare(u1.hostname, u2.hostname, natural);
     if (hostResult !== 0) return hostResult;
 
+    // Compare Ports
+    const portResult = this.compare(u1.port, u2.port, natural);
+    if (portResult !== 0) return portResult;
+
     // Compare Paths
     const pathResult = this.compare(u1.pathname, u2.pathname, natural);
     if (pathResult !== 0) return pathResult;

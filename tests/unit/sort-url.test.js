@@ -78,4 +78,74 @@ describe('Sort by URL', () => {
     const sorted = SortLogic.sortTabsByURL(invalidTabs, true);
     expect(sorted).to.have.length(2);
   });
+
+  describe('Natural vs Alphabetic URL Sorting', () => {
+    it('should sort numeric paths naturally when natural=true', () => {
+      const pathTabs = [
+        { url: 'https://example.com/item/10', id: 1 },
+        { url: 'https://example.com/item/2', id: 2 },
+        { url: 'https://example.com/item/1', id: 3 }
+      ];
+
+      // Alphabetic: item/1, item/10, item/2
+      const alphabetic = SortLogic.sortTabsByURL(pathTabs, true, false, false);
+      expect(alphabetic[0].url).to.equal('https://example.com/item/1');
+      expect(alphabetic[1].url).to.equal('https://example.com/item/10');
+      expect(alphabetic[2].url).to.equal('https://example.com/item/2');
+
+      // Natural: item/1, item/2, item/10
+      const natural = SortLogic.sortTabsByURL(pathTabs, true, false, true);
+      expect(natural[0].url).to.equal('https://example.com/item/1');
+      expect(natural[1].url).to.equal('https://example.com/item/2');
+      expect(natural[2].url).to.equal('https://example.com/item/10');
+    });
+
+    it('should sort port numbers naturally when natural=true', () => {
+      const portTabs = [
+        { url: 'http://localhost:8000', id: 1 },
+        { url: 'http://localhost:90', id: 2 }
+      ];
+
+      // Alphabetic: '8' < '9', so localhost:8000 before localhost:90
+      const alphabetic = SortLogic.sortTabsByURL(portTabs, true, false, false);
+      expect(alphabetic[0].url).to.equal('http://localhost:8000');
+      expect(alphabetic[1].url).to.equal('http://localhost:90');
+
+      // Natural: 90 < 8000, so localhost:90 before localhost:8000
+      const natural = SortLogic.sortTabsByURL(portTabs, true, false, true);
+      expect(natural[0].url).to.equal('http://localhost:90');
+      expect(natural[1].url).to.equal('http://localhost:8000');
+    });
+
+    it('should sort query parameters naturally when natural=true', () => {
+      const queryTabs = [
+        { url: 'https://example.com/search?p=10', id: 1 },
+        { url: 'https://example.com/search?p=2', id: 2 },
+        { url: 'https://example.com/search?p=1', id: 3 }
+      ];
+
+      const natural = SortLogic.sortTabsByURL(queryTabs, true, false, true);
+      expect(natural[0].url).to.equal('https://example.com/search?p=1');
+      expect(natural[1].url).to.equal('https://example.com/search?p=2');
+      expect(natural[2].url).to.equal('https://example.com/search?p=10');
+    });
+
+    it('should sort nested subtrees recursively by URL', () => {
+      const tree = [
+        {
+          url: 'https://example.com/z', id: 1, children: [
+            { url: 'https://example.com/child-2', id: 10 },
+            { url: 'https://example.com/child-1', id: 11 }
+          ]
+        },
+        { url: 'https://example.com/a', id: 2, children: [] }
+      ];
+
+      const sorted = SortLogic.sortTabsByURL(tree, true, true, true);
+      expect(sorted[0].url).to.equal('https://example.com/a');
+      expect(sorted[1].url).to.equal('https://example.com/z');
+      expect(sorted[1].children[0].url).to.equal('https://example.com/child-1');
+      expect(sorted[1].children[1].url).to.equal('https://example.com/child-2');
+    });
+  });
 });

@@ -8,6 +8,9 @@ global.browser = {
     sync: {
       get: async () => ({}),
       set: async () => { }
+    },
+    onChanged: {
+      addListener: () => { }
     }
   },
   runtime: {
@@ -23,6 +26,7 @@ global.browser = {
   },
   menus: {
     create: () => { },
+    update: async () => { },
     onClicked: {
       addListener: () => { }
     }
@@ -70,3 +74,5 @@ global.SortLogic = require('../src/lib/sort-logic.js');
 global.StorageService = require('../src/lib/storage.js');
 global.UIUtils = require('../src/lib/ui-utils.js');
 global.Controller = require('../src/background/controller.js');
+global.Menus = require('../src/background/menus.js');
+global.ThemeHandler = require('../src/background/theme-handler.js');
