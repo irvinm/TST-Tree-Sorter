@@ -91,7 +91,10 @@ const ThemeHandler = {
     }
 
     // Tier 3: No theme data — fallback to system preference (Auto/System theme)
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? '#ffffff' : '#000000';
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? '#ffffff' : '#000000';
+    }
+    return '#000000';
   },
 
   /**
@@ -118,3 +121,9 @@ const ThemeHandler = {
 };
 
 ThemeHandler.init();
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = ThemeHandler;
+} else {
+  window.ThemeHandler = ThemeHandler;
+}

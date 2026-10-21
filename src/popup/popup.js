@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   const disableGlobalCheck = document.getElementById('disableGlobalConfirmation');
   const notifyCheck = document.getElementById('disableNotifications');
   const durationInput = document.getElementById('toastDuration');
+  const sortModeNatural = document.getElementById('sortModeNatural');
+  const sortModeAlphabetic = document.getElementById('sortModeAlphabetic');
   const optionsBtn = document.getElementById('openOptions');
 
   // Load initial values
@@ -12,6 +14,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   disableGlobalCheck.checked = settings.disableGlobalConfirmation;
   notifyCheck.checked = settings.disableNotifications;
   durationInput.value = settings.toastDuration;
+  if (settings.naturalNumericSort !== false) {
+    sortModeNatural.checked = true;
+  } else {
+    sortModeAlphabetic.checked = true;
+  }
 
   // Disable toast duration when notifications are disabled (FR-023, Session 2026-03-29)
   durationInput.disabled = settings.disableNotifications;
@@ -33,6 +40,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   durationInput.addEventListener('change', async () => {
     await StorageService.updateSettings({ toastDuration: parseInt(durationInput.value, 10) });
+  });
+
+  sortModeNatural.addEventListener('change', async () => {
+    if (sortModeNatural.checked) {
+      await StorageService.updateSettings({ naturalNumericSort: true });
+    }
+  });
+
+  sortModeAlphabetic.addEventListener('change', async () => {
+    if (sortModeAlphabetic.checked) {
+      await StorageService.updateSettings({ naturalNumericSort: false });
+    }
   });
 
   optionsBtn.addEventListener('click', () => {

@@ -142,4 +142,72 @@ describe('Sort by Domain and Time', () => {
     expect(sorted[0].url).to.equal('https://example.com/a');
     expect(sorted[1].url).to.equal('https://example.com/z');
   });
+
+  describe('Natural vs Alphabetic Domain Sorting', () => {
+    it('should sort numeric subdomains naturally when natural=true', () => {
+      const subTabs = [
+        { url: 'https://node10.example.com', id: 1 },
+        { url: 'https://node2.example.com', id: 2 },
+        { url: 'https://node1.example.com', id: 3 }
+      ];
+
+      // Alphabetic: 'node10...' < 'node1e...' (since '0' < 'e'), then 'node1...' < 'node2...'
+      const alphabetic = SortLogic.sortTabsByDomain(subTabs, true, true, false, false, false);
+      expect(alphabetic[0].url).to.equal('https://node10.example.com');
+      expect(alphabetic[1].url).to.equal('https://node1.example.com');
+      expect(alphabetic[2].url).to.equal('https://node2.example.com');
+
+      // Natural: node1, node2, node10
+      const natural = SortLogic.sortTabsByDomain(subTabs, true, true, false, false, true);
+      expect(natural[0].url).to.equal('https://node1.example.com');
+      expect(natural[1].url).to.equal('https://node2.example.com');
+      expect(natural[2].url).to.equal('https://node10.example.com');
+    });
+
+    it('should sort domains descending when ascending=false', () => {
+      const tabs = [
+        { url: 'https://apple.com', id: 1 },
+        { url: 'https://zebra.com', id: 2 },
+        { url: 'https://banana.com', id: 3 }
+      ];
+      const sorted = SortLogic.sortTabsByDomain(tabs, false, false, false, false);
+      expect(sorted[0].url).to.equal('https://zebra.com');
+      expect(sorted[1].url).to.equal('https://banana.com');
+      expect(sorted[2].url).to.equal('https://apple.com');
+    });
+
+    it('should sort nested subtrees recursively by domain', () => {
+      const tree = [
+        {
+          url: 'https://zebra.com', id: 1, children: [
+            { url: 'https://yahoo.com', id: 10 },
+            { url: 'https://bing.com', id: 11 }
+          ]
+        },
+        { url: 'https://apple.com', id: 2, children: [] }
+      ];
+      const sorted = SortLogic.sortTabsByDomain(tree, true, false, true, false);
+      expect(sorted[0].url).to.equal('https://apple.com');
+      expect(sorted[1].url).to.equal('https://zebra.com');
+      expect(sorted[1].children[0].url).to.equal('https://bing.com');
+      expect(sorted[1].children[1].url).to.equal('https://yahoo.com');
+    });
+
+    it('should sort nested subtrees recursively by time', () => {
+      const tree = [
+        {
+          lastAccessed: 100, title: 'Old Parent', id: 1, children: [
+            { lastAccessed: 50, title: 'Old Child', id: 10 },
+            { lastAccessed: 300, title: 'New Child', id: 11 }
+          ]
+        },
+        { lastAccessed: 500, title: 'New Parent', id: 2, children: [] }
+      ];
+      const sorted = SortLogic.sortTabsByTime(tree, true, true);
+      expect(sorted[0].title).to.equal('New Parent');
+      expect(sorted[1].title).to.equal('Old Parent');
+      expect(sorted[1].children[0].title).to.equal('New Child');
+      expect(sorted[1].children[1].title).to.equal('Old Child');
+    });
+  });
 });

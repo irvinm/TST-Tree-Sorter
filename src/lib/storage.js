@@ -12,7 +12,8 @@ const StorageService = {
     disableNotifications: false,
     toastDuration: 3000,
     strictDomainSort: false,
-    emptyDomainTop: false
+    emptyDomainTop: false,
+    naturalNumericSort: true
   },
 
   /**

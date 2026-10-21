@@ -251,15 +251,16 @@ const Controller = {
     const snapshot = this.snapshotTree(sortableTabs);
 
     // Sort the snapshot
+    const natural = settings.naturalNumericSort !== undefined ? settings.naturalNumericSort : true;
     let sortedChildren = [];
     if (criteria === 'TITLE') {
-      sortedChildren = SortLogic.sortTabsByTitle(snapshot, ascending, recursive);
+      sortedChildren = SortLogic.sortTabsByTitle(snapshot, ascending, recursive, natural);
     } else if (criteria === 'URL') {
-      sortedChildren = SortLogic.sortTabsByURL(snapshot, ascending, recursive);
+      sortedChildren = SortLogic.sortTabsByURL(snapshot, ascending, recursive, natural);
     } else if (criteria === 'DOMAIN') {
-      sortedChildren = SortLogic.sortTabsByDomain(snapshot, ascending, settings.strictDomainSort, recursive, settings.emptyDomainTop);
+      sortedChildren = SortLogic.sortTabsByDomain(snapshot, ascending, settings.strictDomainSort, recursive, settings.emptyDomainTop, natural);
     } else if (criteria === 'TIME') {
-      sortedChildren = SortLogic.sortTabsByTime(snapshot, ascending, recursive);
+      sortedChildren = SortLogic.sortTabsByTime(snapshot, ascending, recursive, natural);
     }
 
     // Move tabs via TST

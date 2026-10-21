@@ -68,6 +68,122 @@
       color: var(--note-color);
       margin-top: 2px;
     }
+
+    .help-details {
+      margin-top: 6px;
+      margin-bottom: 12px;
+      margin-left: 20px;
+      font-size: 12px;
+      color: var(--note-color);
+    }
+
+    a {
+      color: #1a73e8;
+    }
+
+    .help-details summary {
+      cursor: pointer;
+      color: #1a73e8;
+      font-weight: 500;
+      user-select: none;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      a {
+        color: #8ab4f8;
+      }
+
+      .help-details summary {
+        color: #8ab4f8;
+      }
+    }
+
+    .help-details[open] summary {
+      margin-bottom: 8px;
+    }
+
+    .radio-group {
+      margin-top: 8px;
+      margin-bottom: 12px;
+    }
+
+    .radio-option {
+      margin-bottom: 10px;
+    }
+
+    .radio-option label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin-bottom: 2px;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      margin-top: 2px;
+    }
+
+    .radio-option .note {
+      margin-left: 24px;
+      margin-top: 2px;
+    }
+
+    .help-content {
+      padding: 10px 12px;
+      background: var(--bg-color);
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+      line-height: 1.5;
+    }
+
+    .help-content p {
+      margin: 4px 0;
+    }
+
+    .help-content ul {
+      margin: 6px 0 6px 18px;
+      padding: 0;
+    }
+
+    .help-content li {
+      margin-bottom: 5px;
+    }
+
+    .help-content code {
+      font-family: Consolas, Monaco, monospace;
+      font-size: 11px;
+      padding: 1px 4px;
+      background: var(--group-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+    }
+
+    .help-content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 8px 0;
+      font-size: 11.5px;
+    }
+
+    .help-content th,
+    .help-content td {
+      border: 1px solid var(--border-color);
+      padding: 5px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .help-content th {
+      background-color: var(--group-bg);
+      font-weight: 600;
+    }
+
+    .help-content .section-title {
+      font-weight: 600;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      color: var(--text-color);
+    }
   </style>
 </head>
 
@@ -104,6 +220,67 @@
 
   <div class="setting-group">
     <h2>Sorting Preferences</h2>
+    <div style="font-weight: 600; margin-bottom: 8px;">Text &amp; Number Sorting Mode:</div>
+    <div class="radio-group">
+      <div class="radio-option">
+        <label>
+          <input type="radio" name="sortMode" id="sortModeNatural" value="natural">
+          <span><strong>Natural Numeric Sorting</strong> (Default)</span>
+        </label>
+        <div class="note">Evaluates numbers by numerical value (e.g., <code>Tab 1, Tab 2, Tab 10</code>). Recommended for general browsing, tutorials, tickets, and reading lists.</div>
+      </div>
+      <div class="radio-option">
+        <label>
+          <input type="radio" name="sortMode" id="sortModeAlphabetic" value="alphabetic">
+          <span><strong>Alphabetic Sorting</strong></span>
+        </label>
+        <div class="note">Locale-aware sorting (case-insensitive, punctuation-ignoring) without numeric evaluation (e.g., <code>Tab 1, Tab 10, Tab 2</code>).</div>
+      </div>
+    </div>
+    <details class="help-details" style="margin-left: 0;">
+      <summary>Known limitations &amp; examples</summary>
+      <div class="help-content">
+        <p><strong>Natural Numeric Sorting</strong> compares embedded numbers by numerical value instead of raw character codes (e.g., <code>2 &lt; 10</code> rather than <code>"10" &lt; "2"</code>). Learn more about <a href="https://en.wikipedia.org/wiki/Natural_sort_order" target="_blank" rel="noopener noreferrer">Natural sort order on Wikipedia</a>.</p>
+
+        <div class="section-title">Common Examples:</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Pattern</th>
+              <th>Alphabetic Sort</th>
+              <th>Natural Sort (Default)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Chapters / Tutorials</strong></td>
+              <td><code>Chapter 1</code>, <code>Chapter 10</code>, <code>Chapter 2</code></td>
+              <td><code>Chapter 1</code>, <code>Chapter 2</code>, <code>Chapter 10</code></td>
+            </tr>
+            <tr>
+              <td><strong>Issues &amp; Tickets</strong></td>
+              <td><code>#1</code>, <code>#102</code>, <code>#2</code>, <code>#9</code></td>
+              <td><code>#1</code>, <code>#2</code>, <code>#9</code>, <code>#102</code></td>
+            </tr>
+            <tr>
+              <td><strong>Paginated Pages</strong></td>
+              <td><code>Page 1</code>, <code>Page 10</code>, <code>Page 2</code></td>
+              <td><code>Page 1</code>, <code>Page 2</code>, <code>Page 10</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="section-title">Known Limitations &amp; Edge Cases:</div>
+        <ul>
+          <li><strong>Hexadecimal &amp; UUID hashes:</strong> Digit sequences inside hashes are treated as numbers. For example, in <code>035DF...</code> vs <code>4F35...</code>, natural sorting sees <code>35</code> &gt; <code>4</code> and places <code>4F35...</code> <em>before</em> <code>035DF...</code>, even though <code>'0' &lt; '4'</code> alphabetically.</li>
+          <li><strong>Zero-padded numbers with identical values:</strong> Strings like <code>Tab 01</code> and <code>Tab 1</code> have the same numerical value (<code>1</code>). Relative placement falls back to secondary collation rules rather than string length.</li>
+          <li><strong>Complex version strings:</strong> Simple versions like <code>v1.2</code> and <code>v1.10</code> sort cleanly (<code>1.2 &lt; 1.10</code>), but complex SemVer formats with prerelease tags (e.g., <code>v1.2.0-rc1</code> vs <code>v1.2.0</code>) are compared segment-by-segment, not by true semantic version rules.</li>
+          <li><strong>Technical URLs &amp; Query strings:</strong> URL sorting also respects this setting. Cache-busting timestamps (<code>?v=171000...</code>), port numbers, or asset IDs in paths are compared numerically.</li>
+        </ul>
+
+        <p><em><strong>Recommendation:</strong> Use Natural sorting for general browsing, tutorials, tickets, and reading lists. Use Alphabetic sorting for developer workspaces with git commit hashes, raw hex files, or where numbers should be treated as text.</em></p>
+      </div>
+    </details>
     <label>
       <input type="checkbox" id="strictDomainSort"> Strict Domain Sorting
       <div class="note">If checked, subdomains (mail.google.com) are separate from base (google.com).</div>

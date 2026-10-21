@@ -6,20 +6,22 @@
 
 ## Key Features
 
-*   **Sort by Title**: Alphabetical sorting (A-Z, Z-A) with locale-aware support.
-*   **Sort by URL**: Group tabs by hostname and path.
-*   **Sort by Domain**: Smartly groups tabs by base domain (e.g., keeping `google.com` and `google.co.uk` separate or together).
+*   **Sort by Title**: Natural numeric sorting ("Tab 2" before "Tab 10", default) or locale-aware Alphabetic sorting.
+*   **Dual Sorting Modes**: Choose between **Natural** and **Alphabetic** modes directly from the toolbar popup or options page.
+*   **Dynamic Menu Indicator**: The context menu dynamically reflects your active mode (e.g., *Sort Tree (Natural)* vs. *Sort Tree (Alphabetic)*).
+*   **Sort by URL**: Group tabs by hostname, port, and path.
+*   **Sort by Domain**: Smartly groups tabs by base domain using the Public Suffix List (e.g., properly handling `.co.uk`, `.github.io`).
 *   **Sort by Last Accessed**: Find your most recently used tabs instantly.
 *   **Deep Sorting**: Recursively sort entire sub-trees or just immediate children.
 *   **Global Sort**: Organize your entire sidebar (top-level tabs) with one click.
 *   **Multi-Selection Support**: Sort multiple selected branches at once.
 *   **Keyboard Shortcuts**: Bind custom shortcuts for quick sorting actions.
-*   **Theme-Responsive**: The icon automatically adapts to light and dark themes.
+*   **Theme-Responsive**: The icon automatically adapts to Firefox light and dark themes.
 
 ## Usage
 
 1.  Right-click on any tab in the Tree Style Tab sidebar.
-2.  Navigate to the **Sort Tree** menu.
+2.  Navigate to the **Sort Tree (Natural)** or **Sort Tree (Alphabetic)** menu.
 3.  Choose your criterion (**Title**, **URL**, **Domain**, **Time**) and direction.
 
 That's it! Your tabs are reorganized instantly.
