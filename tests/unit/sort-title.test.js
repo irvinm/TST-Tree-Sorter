@@ -95,14 +95,31 @@ describe('Sort by Title', () => {
     expect(sorted[2].title).to.equal('Group: Work');
   });
 
-  // Locale-aware sorting (FR-003 with Intl.Collator)
-  it('should handle numeric strings naturally', () => {
+  // Locale-aware sorting: alphabetic (natural=false) vs natural numeric (natural=true)
+  it('should sort strings alphabetically when natural=false (alphabetic mode)', () => {
+    const tabs = [
+      { title: 'Tab 10', id: 1 },
+      { title: 'Tab 2', id: 2 },
+      { title: 'Tab 1', id: 3 },
+      { title: '4F35', id: 4 },
+      { title: '035D', id: 5 }
+    ];
+    const sorted = SortLogic.sortTabsByTitle(tabs, true, false, false);
+    // Alphabetic order: 035D before 4F35, and Tab 10 before Tab 2
+    expect(sorted[0].title).to.equal('035D');
+    expect(sorted[1].title).to.equal('4F35');
+    expect(sorted[2].title).to.equal('Tab 1');
+    expect(sorted[3].title).to.equal('Tab 10');
+    expect(sorted[4].title).to.equal('Tab 2');
+  });
+
+  it('should handle numeric strings naturally when natural=true', () => {
     const numericTabs = [
       { title: 'Tab 10', id: 1 },
       { title: 'Tab 2', id: 2 },
       { title: 'Tab 1', id: 3 }
     ];
-    const sorted = SortLogic.sortTabsByTitle(numericTabs, true);
+    const sorted = SortLogic.sortTabsByTitle(numericTabs, true, false, true);
     expect(sorted[0].title).to.equal('Tab 1');
     expect(sorted[1].title).to.equal('Tab 2');
     expect(sorted[2].title).to.equal('Tab 10');

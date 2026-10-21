@@ -50,6 +50,55 @@
       padding: 2px 5px;
     }
 
+    .radio-group {
+      margin-top: 10px;
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 4px;
+    }
+
+    .radio-group-title {
+      font-weight: 600;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .radio-option {
+      margin-bottom: 8px;
+    }
+
+    .radio-option:last-child {
+      margin-bottom: 0;
+    }
+
+    .radio-option label {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 6px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    .radio-option input[type="radio"] {
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    .radio-option .note {
+      font-size: 11px;
+      color: #666666;
+      margin-left: 20px;
+      margin-top: 2px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .radio-option .note {
+        color: #9aa0a6;
+      }
+    }
+
     button {
       width: 100%;
       padding: 8px;
@@ -91,6 +140,24 @@
       Toast Duration (ms)
       <input type="number" id="toastDuration" min="1000" step="500">
     </label>
+  </div>
+
+  <div class="radio-group">
+    <div class="radio-group-title">Sorting Mode</div>
+    <div class="radio-option">
+      <label>
+        <input type="radio" name="sortMode" id="sortModeNatural" value="natural">
+        <span><strong>Natural</strong> (1, 2, 10)</span>
+      </label>
+      <div class="note">Numerical value (Default)</div>
+    </div>
+    <div class="radio-option">
+      <label>
+        <input type="radio" name="sortMode" id="sortModeAlphabetic" value="alphabetic">
+        <span><strong>Alphabetic</strong> (1, 10, 2)</span>
+      </label>
+      <div class="note">Character-by-character / ASCII</div>
+    </div>
   </div>
 
   <button id="openOptions">Advanced Options</button>

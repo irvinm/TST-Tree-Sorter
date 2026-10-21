@@ -1,10 +1,32 @@
 // Menus configuration
 const Menus = {
+  async getRootTitle() {
+    try {
+      if (typeof StorageService !== 'undefined') {
+        const settings = await StorageService.getSettings();
+        const natural = settings.naturalNumericSort !== false;
+        return natural ? 'Sort Tree (Natural)' : 'Sort Tree (Alphabetic)';
+      }
+    } catch (e) {
+      console.error('Error getting settings for menu title:', e);
+    }
+    return 'Sort Tree (Natural)';
+  },
+
+  async updateRootTitle() {
+    try {
+      const title = await this.getRootTitle();
+      await browser.menus.update('sort-tree-root', { title });
+    } catch (e) {
+      console.error('Error updating root menu title:', e);
+    }
+  },
+
   create() {
     // Parent menu
     browser.menus.create({
       id: 'sort-tree-root',
-      title: 'Sort Tree',
+      title: 'Sort Tree (Natural)',
       contexts: ['tab'],
       icons: {
         "16": "src/icons/icon.svg",
@@ -271,6 +293,9 @@ const Menus = {
       title: 'By Last Accessed (Oldest)',
       contexts: ['tab']
     });
+
+    // Sync root title from storage
+    this.updateRootTitle();
   }
 };
 
@@ -282,6 +307,15 @@ browser.menus.onClicked.addListener((info, tab) => {
     console.error('Controller not found!');
   }
 });
+
+// Listen for changes to sorting mode and update root menu title dynamically
+if (typeof browser !== 'undefined' && browser.storage && browser.storage.onChanged) {
+  browser.storage.onChanged.addListener((changes, area) => {
+    if (area === 'sync' && changes.naturalNumericSort) {
+      Menus.updateRootTitle();
+    }
+  });
+}
 
 // Initialize
 Menus.create();

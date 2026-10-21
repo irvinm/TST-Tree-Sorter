@@ -7,19 +7,20 @@ const SortLogic = {
    * @param {Array} tabs - Array of tab objects.
    * @param {boolean} [ascending=true] - Sort direction.
    * @param {boolean} [recursive=false] - Whether to sort recursively.
+   * @param {boolean} [natural=false] - Whether to use natural numeric sorting.
    * @returns {Array} Sorted array of tabs.
    */
-  sortTabsByTitle(tabs, ascending = true, recursive = false) {
-    console.log('SortLogic: Sorting by Title', { count: tabs.length, ascending, recursive });
+  sortTabsByTitle(tabs, ascending = true, recursive = false, natural = false) {
+    console.log('SortLogic: Sorting by Title', { count: tabs.length, ascending, recursive, natural });
     const sorted = [...tabs].sort((a, b) => {
-      const result = SortUtils.compare(a.title, b.title);
+      const result = SortUtils.compare(a.title, b.title, natural);
       return ascending ? result : -result;
     });
 
     if (recursive) {
       for (const tab of sorted) {
         if (tab.children && tab.children.length > 0) {
-          tab.children = this.sortTabsByTitle(tab.children, ascending, true);
+          tab.children = this.sortTabsByTitle(tab.children, ascending, true, natural);
         }
       }
     }
@@ -31,16 +32,17 @@ const SortLogic = {
    * @param {Array} tabs - Array of tab objects.
    * @param {boolean} [ascending=true] - Sort direction.
    * @param {boolean} [recursive=false] - Whether to sort recursively.
+   * @param {boolean} [natural=false] - Whether to use natural numeric sorting.
    * @returns {Array} Sorted array of tabs.
    */
-  sortTabsByURL(tabs, ascending = true, recursive = false) {
-    console.log('SortLogic: Sorting by URL', { count: tabs.length, ascending, recursive });
+  sortTabsByURL(tabs, ascending = true, recursive = false, natural = false) {
+    console.log('SortLogic: Sorting by URL', { count: tabs.length, ascending, recursive, natural });
     const sorted = [...tabs].sort((a, b) => {
-      let result = SortUtils.compareURLs(a.url, b.url);
+      let result = SortUtils.compareURLs(a.url, b.url, natural);
       
       // Tie-break with Title
       if (result === 0) {
-        result = SortUtils.compare(a.title, b.title);
+        result = SortUtils.compare(a.title, b.title, natural);
       }
 
       return ascending ? result : -result;
@@ -49,15 +51,15 @@ const SortLogic = {
     if (recursive) {
       for (const tab of sorted) {
         if (tab.children && tab.children.length > 0) {
-          tab.children = this.sortTabsByURL(tab.children, ascending, true);
+          tab.children = this.sortTabsByURL(tab.children, ascending, true, natural);
         }
       }
     }
     return sorted;
   },
 
-  sortTabsByDomain(tabs, ascending = true, strict = false, recursive = false, emptyDomainTop = false) {
-    console.log('SortLogic: Sorting by Domain', { count: tabs.length, ascending, recursive, emptyDomainTop });
+  sortTabsByDomain(tabs, ascending = true, strict = false, recursive = false, emptyDomainTop = false, natural = false) {
+    console.log('SortLogic: Sorting by Domain', { count: tabs.length, ascending, recursive, emptyDomainTop, natural });
     const sorted = [...tabs].sort((a, b) => {
       let d1, d2;
       try {
@@ -74,11 +76,11 @@ const SortLogic = {
       if (d1 === '' && d2 !== '') return emptyDomainTop ? -1 : 1;
       if (d1 !== '' && d2 === '') return emptyDomainTop ? 1 : -1;
 
-      let result = SortUtils.compare(d1, d2);
+      let result = SortUtils.compare(d1, d2, natural);
       
       // Tie-break with URL
       if (result === 0) {
-        result = SortUtils.compareURLs(a.url, b.url);
+        result = SortUtils.compareURLs(a.url, b.url, natural);
       }
 
       return ascending ? result : -result;
@@ -87,15 +89,15 @@ const SortLogic = {
     if (recursive) {
       for (const tab of sorted) {
         if (tab.children && tab.children.length > 0) {
-          tab.children = this.sortTabsByDomain(tab.children, ascending, strict, true, emptyDomainTop);
+          tab.children = this.sortTabsByDomain(tab.children, ascending, strict, true, emptyDomainTop, natural);
         }
       }
     }
     return sorted;
   },
 
-  sortTabsByTime(tabs, ascending = true, recursive = false) {
-    console.log('SortLogic: Sorting by Time', { count: tabs.length, ascending, recursive });
+  sortTabsByTime(tabs, ascending = true, recursive = false, natural = false) {
+    console.log('SortLogic: Sorting by Time', { count: tabs.length, ascending, recursive, natural });
     // "Ascending" here means "Newest First" per specs/menus?
     // Spec says: "The default 'Ascending' sort MUST place the most recently accessed tabs at the top."
     // Timestamp: Larger = Newer.
@@ -107,7 +109,7 @@ const SortLogic = {
       
       // Tie-break with Title
       if (result === 0) {
-        result = SortUtils.compare(a.title, b.title);
+        result = SortUtils.compare(a.title, b.title, natural);
       }
 
       return ascending ? result : -result; // If user chose "Descending", flip it to Oldest First.
@@ -116,7 +118,7 @@ const SortLogic = {
     if (recursive) {
       for (const tab of sorted) {
         if (tab.children && tab.children.length > 0) {
-          tab.children = this.sortTabsByTime(tab.children, ascending, true);
+          tab.children = this.sortTabsByTime(tab.children, ascending, true, natural);
         }
       }
     }

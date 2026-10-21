@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     toastDuration: document.getElementById('toastDuration'),
     strictDomainSort: document.getElementById('strictDomainSort'),
     emptyDomainTop: document.getElementById('emptyDomainTop'),
+    sortModeNatural: document.getElementById('sortModeNatural'),
+    sortModeAlphabetic: document.getElementById('sortModeAlphabetic'),
     status: document.getElementById('status')
   };
 
@@ -20,6 +22,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   els.toastDuration.value = settings.toastDuration;
   els.strictDomainSort.checked = settings.strictDomainSort;
   els.emptyDomainTop.checked = settings.emptyDomainTop;
+  if (settings.naturalNumericSort !== false) {
+    els.sortModeNatural.checked = true;
+  } else {
+    els.sortModeAlphabetic.checked = true;
+  }
 
   // Disable toast duration when notifications are disabled (FR-023, Session 2026-03-29)
   els.toastDuration.disabled = settings.disableNotifications;
@@ -33,7 +40,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       confirmThreshold: parseInt(els.confirmThreshold.value, 10),
       toastDuration: parseInt(els.toastDuration.value, 10),
       strictDomainSort: els.strictDomainSort.checked,
-      emptyDomainTop: els.emptyDomainTop.checked
+      emptyDomainTop: els.emptyDomainTop.checked,
+      naturalNumericSort: els.sortModeNatural.checked
     });
 
     // Toggle toast duration field (FR-023, Session 2026-03-29)
