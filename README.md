@@ -10,7 +10,7 @@ A Firefox extension that integrates with [Tree Style Tab](https://addons.mozilla
 
 ## Features
 
-- **Sort by Title**: Alphabetical sorting (A-Z, Z-A).
+- **Sort by Title**: Natural numeric sorting (`Tab 1, Tab 2, Tab 10`, default) or Alphabetic sorting (A-Z, Z-A).
 - **Sort by URL**: Hostname > Path > Fragment ordering.
 - **Accurate Domain Sorting**: Groups tabs by base domain using the **Public Suffix List (PSL)**. Correctly handles complex TLDs (e.g., `.co.uk`, `.github.io`) so that subdomains are always grouped under their true root.
 - **Sort by Last Accessed**: Sort by recency (newest used at top).
@@ -155,6 +155,18 @@ See [quickstart.md](specs/archived/001-tree-tab-sorter/quickstart.md) for detail
 ### Version History
 
 <details open>
+<summary><b>Version 0.9.3 (Oct 20, 2026)</b></summary>
+
+- **New**: **Natural Numeric Sorting by Default** — Tab titles, URLs, and domains sort numbers by numerical value (e.g., "Tab 2" before "Tab 10").
+- **New**: **Dual Sorting Modes** — Toggle between **Natural** and **Alphabetic** modes in Options or the Toolbar Popup.
+- **New**: **Dynamic Menu Title** — Context menu root label dynamically reflects the active sorting mode (`Sort Tree (Natural)` vs. `Sort Tree (Alphabetic)`).
+- **New**: **Toolbar Popup Quick Setting** — Added sorting mode selector directly to the extension toolbar popup.
+- **Fixed**: **URL Port Sorting** — Ports are now evaluated properly during URL comparison (e.g., `localhost:90` before `localhost:8000`).
+- **Improved**: **Test Suite Expansion** — Added 35 new unit tests covering Storage, Menus, ThemeHandler, UIUtils, and edge cases (94 passing tests).
+
+</details>
+
+<details>
 <summary><b>Version 0.9.2 (Mar 29, 2026)</b></summary>
 
 - **Improved**: **Unified Reordering Engine** — All sort types (Global, Subtree, and Multi-select) now use a robust, backward-iterating reordering strategy for maximum reliability. 
